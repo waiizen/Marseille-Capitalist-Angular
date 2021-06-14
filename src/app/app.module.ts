@@ -12,6 +12,9 @@ import {RouterModule, Routes} from "@angular/router";
 import { ProductComponent } from './product/product.component';
 import {HttpClientModule} from "@angular/common/http";
 import {MatGridListModule} from "@angular/material/grid-list";
+import {MatProgressBarModule} from "@angular/material/progress-bar";
+import {MatDivider, MatDividerModule} from "@angular/material/divider";
+import {MatButton, MatButtonModule} from "@angular/material/button";
 
 const appRoutes: Routes = [
   { path: 'gameplay', component: GameplayComponent },
@@ -33,7 +36,10 @@ const appRoutes: Routes = [
     MatSidenavModule,
     RouterModule.forRoot(appRoutes),
     HttpClientModule,
-    MatGridListModule
+    MatGridListModule,
+    MatProgressBarModule,
+    MatDividerModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
