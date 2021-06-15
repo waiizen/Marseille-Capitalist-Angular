@@ -2,6 +2,9 @@
   float:left;
   width:20%;
 }
+.img img{
+  height: 57px;
+}
 .product{
   float:right;
   width:80%
@@ -34,3 +37,10 @@
   margin:9px;
 }
 
+#product{
+  //width: 165%;
+}
+
+#product img{
+  left: -200px;
+}
