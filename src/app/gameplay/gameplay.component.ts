@@ -13,10 +13,12 @@ export class GameplayComponent implements OnInit {
   server: string;
 
   constructor(private service: RestServiceService) {
+
     this.server = service.getServer();
     service.getWorld().then(
       world => {
         this.world = world;
+        console.log(this.world);
       });
   }
 

@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class RestServiceService {
 
-  server = "http://localhost:4200";
+  server = "http://localhost:2612/";
   user = "";
 
   constructor(private http: HttpClient) { }
@@ -34,7 +34,7 @@ export class RestServiceService {
   }
 
   getWorld(): Promise<World> {
-    return this.http.get(this.server + "adventureisis/generic/world")
+    return this.http.get(this.server + "Marseille-Capitalist/generic/world")
       .toPromise().catch(this.handleError);
   }
 

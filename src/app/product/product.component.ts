@@ -10,18 +10,23 @@ export class ProductComponent implements OnInit {
 
   product: Product;
   progressbarValue: number;
-  timeleft: number;
+  lastUpdate: number;
 
   constructor() {}
 
   ngOnInit(): void {
 
+    //this.product.timeleft = 0;
+
     // score's calculation every 100ms
+    /*
     setInterval(
       () => {
         this.calcScore();
-      }, 100
+      }, 1000
     );
+
+     */
   }
 
   @Input()
@@ -30,12 +35,23 @@ export class ProductComponent implements OnInit {
   }
 
   startFabrication(){
-    // gerer la progress bar, l'event click etc p30
+    this.product.vitesse = 3000;
     this.progressbarValue = 0;
+    this.lastUpdate = Date.now();
+    this.product.timeleft = this.product.vitesse;
+    alert('ok');
   }
 
   calcScore(){
-
+    if(this.product.timeleft != 0){
+      while(this.product.timeleft > 0) { // tant que timeleft est supérieur à 0
+        this.product.timeleft = this.product.timeleft - (Date.now() - this.lastUpdate);
+        this.lastUpdate = Date.now();
+        this.progressbarValue = ((this.product.vitesse - this.product.timeleft) / this.product.vitesse) * 100
+      }
+      //TODO ajouter l'argent
+      this.progressbarValue = 0;
+    }
   }
 
 }

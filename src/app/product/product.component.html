@@ -1,15 +1,15 @@
 <div id="product">
   <div class="img">
-    <img src="https://s2.qwant.com/thumbr/0x0/7/0/7ce4eb51c2f5a3440937999fb6129dd9697241221bea05ef84383eba41ffa8/newsletter-icon-jul-03.jpg?u=https%3A%2F%2Ffr.architas.com%2Fglobalassets%2Fulook%2Fjul-2019%2Fnewsletter-icon-jul-03.jpg&q=0&b=1&p=0&a=0">
+    <img (click)="startFabrication()" src="https://s2.qwant.com/thumbr/0x0/7/0/7ce4eb51c2f5a3440937999fb6129dd9697241221bea05ef84383eba41ffa8/newsletter-icon-jul-03.jpg?u=https%3A%2F%2Ffr.architas.com%2Fglobalassets%2Fulook%2Fjul-2019%2Fnewsletter-icon-jul-03.jpg&q=0&b=1&p=0&a=0">
   </div>
   <div class="product">
-    <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+    <mat-progress-bar mode="determinate" [value]="progressbarValue"></mat-progress-bar>
     <p>1$</p>
     <div class="price">
-      <button mat-raised-button>#Prix</button>
+      <button mat-raised-button>{{this.product.cout}}$</button>
     </div>
     <div class ="timeleft">
-      <p>00:01</p>
+      <p>{{this.product.timeleft}}</p>
     </div>
   </div>
 </div>
