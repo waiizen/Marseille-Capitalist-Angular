@@ -11,6 +11,7 @@ export class AppComponent {
 
   world: World = new World();
   server: string;
+  isClicked: boolean;
 
   constructor(private service: RestServiceService) {
     this.server = service.getServer();

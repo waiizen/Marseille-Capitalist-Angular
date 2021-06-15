@@ -2,13 +2,19 @@
   <mat-sidenav mode="side" opened class="sidenav">
     <img src="assets/marseilleLogo.png" alt="logoJeu" id="appLogo">
     <h1 id="worldName">{{world.name}}Marseille Capitalist</h1>
-    <ul>
-      <li routerLinkActive="active"><a routerLink="gameplay">Jeu</a></li>
-      <li routerLinkActive="active"><a routerLink="achievements">Achievements</a></li>
-      <li routerLinkActive="active">Upgrades</li>
+    <ul class="menu">
+      <!--<li routerLinkActive="active"><a routerLink="gameplay">Jeu</a></li> -->
+      <a mat-stroked-button routerLink="gameplay" (click)="this.isClicked = !isClicked" [class.myClass]="this.isClicked">Game</a><br>
+      <a mat-stroked-button routerLink="achievements"(click)="this.isClicked = !isClicked"  [class.myClass]="this.isClicked">Achievements</a><br>
+      <!-- <li routerLinkActive="active"><a routerLink="achievements">Achievements</a></li> -->
+      <a mat-stroked-button >Upgrades</a><br>
+      <a mat-stroked-button>Managers</a><br>
+      <a mat-stroked-button>Investors</a><br>
+      <a mat-stroked-button>Coming Soon</a>
+      <!--<li routerLinkActive="active">Upgrades</li>
       <li routerLinkActive="active">Managers</li>
       <li routerLinkActive="active">Investors</li>
-      <li routerLinkActive="active">Coming Soon</li>
+      <li routerLinkActive="active">Coming Soon</li>-->
     </ul>
   </mat-sidenav>
   <mat-sidenav-content>
