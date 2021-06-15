@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Product} from "../world";
+import {RestServiceService} from "../services/rest-service.service";
 
 @Component({
   selector: 'app-product',
@@ -11,8 +12,11 @@ export class ProductComponent implements OnInit {
   product: Product;
   progressbarValue: number;
   lastUpdate: number;
+  server: string;
 
-  constructor() {}
+  constructor(private service: RestServiceService) {
+    this.server = service.getServer();
+  }
 
   ngOnInit(): void {
 

@@ -2,16 +2,14 @@
   float:left;
   width:20%;
 }
-.img img{
-  height: 57px;
-}
+
 .product{
   float:right;
   width:80%
 }
 .product p{
   position: relative;
-  margin-top: -19px;
+  margin-top: -25px;
   margin-bottom: 0px;
   text-align: center;
 }
@@ -21,26 +19,38 @@
   text-align: center;
 }
 .mat-progress-bar{
-  height:20px;
+  height:25px;
 }
 .mat-raised-button{
   width:100%;
 }
 
-.timeleft{
+.qtt{
   float:right;
   width:50%;
   text-align: center;
 }
 
-.timeleft p{
+.qtt p{
   margin:9px;
 }
 
 #product img{
-  left: -200px;
+  height: 56px;
+  border-radius: 6px;
 }
 
 #product img:hover{
   cursor: pointer;
+}
+
+mat-icon{
+  font-size: 15px;
+  vertical-align: -3px;
+}
+
+.price mat-icon{
+  font-size: 18px;
+  vertical-align: -5px;
+  margin-right: 10%;
 }

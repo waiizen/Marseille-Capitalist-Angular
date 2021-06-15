@@ -15,6 +15,9 @@ import {MatGridListModule} from "@angular/material/grid-list";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatDivider, MatDividerModule} from "@angular/material/divider";
 import {MatButton, MatButtonModule} from "@angular/material/button";
+import {MatIconModule} from "@angular/material/icon";
+import { BigvaluePipe } from './bigvalue.pipe';
+import {MatRippleModule} from "@angular/material/core";
 
 const appRoutes: Routes = [
   { path: 'gameplay', component: GameplayComponent },
@@ -27,7 +30,8 @@ const appRoutes: Routes = [
     HeaderComponent,
     GameplayComponent,
     AchievementsComponent,
-    ProductComponent
+    ProductComponent,
+    BigvaluePipe
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,9 @@ const appRoutes: Routes = [
     MatGridListModule,
     MatProgressBarModule,
     MatDividerModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
+    MatRippleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
