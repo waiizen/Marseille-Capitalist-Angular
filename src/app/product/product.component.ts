@@ -17,6 +17,7 @@ export class ProductComponent implements OnInit {
   server: string;
   globalMoneySubscription: Subscription;
   globalMoney: number;
+  inFabrication: boolean = false;
 
   constructor(private service: RestServiceService, private globalMoneyService: GlobalMoneyServiceService) {
     this.server = service.getServer();
@@ -47,8 +48,11 @@ export class ProductComponent implements OnInit {
   }
 
   startFabrication(){
-    this.product.timeleft = this.product.vitesse;
-    this.lastUpdate = Date.now();
+    if(!this.inFabrication){
+      this.product.timeleft = this.product.vitesse;
+      this.lastUpdate = Date.now();
+      this.inFabrication = true;
+    }
   }
 
   calcScore(){
@@ -63,6 +67,7 @@ export class ProductComponent implements OnInit {
         this.globalMoney += this.product.revenu;
         this.globalMoneyService.setGlobalMoney(this.globalMoney);
         this.globalMoneyService.emitGlobalMoneySubject();
+        this.inFabrication = false;
       }
     }
   }
