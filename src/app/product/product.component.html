@@ -1,10 +1,16 @@
 <div id="product">
   <div class="img">
-    <img (click)="startFabrication()" [src]="server + 'icones/' + this.product.logo">
+    <img (click)="startFabrication()"
+         [src]="server + 'icones/' + this.product.logo">
   </div>
   <div class="product">
-    <mat-progress-bar mode="determinate" [value]="progressbarValue"></mat-progress-bar>
-    <p><mat-icon>savings</mat-icon>{{this.product.revenu}}€&nbsp;&nbsp;-&nbsp;&nbsp;<mat-icon>access_time_filled</mat-icon>0h0m42s</p>
+    <mat-progress-bar mode="determinate"
+                      [value]="progressbarValue"></mat-progress-bar>
+    <p>
+      <mat-icon>savings</mat-icon>{{this.product.revenu}}€&nbsp;&nbsp;-&nbsp;&nbsp;
+      <mat-icon>access_time_filled</mat-icon>
+      {{this.product.timeleft | msFormat}}
+    </p>
     <div class="price">
       <button mat-raised-button><mat-icon>add_shopping_cart</mat-icon>{{this.product.cout}}$</button>
     </div>

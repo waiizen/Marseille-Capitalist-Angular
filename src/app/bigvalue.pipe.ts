@@ -7,7 +7,7 @@ export class BigvaluePipe implements PipeTransform {
 
   transform(input: any, args?: any): any {
     var exp, rounded,
-      suffixes = ['000', 'Millions', 'Giga', 'Tera', 'Peta', 'Exa'];
+      suffixes = ['000 pétous', 'Millions de pétous', 'GigaPétous', 'TeraPétous', 'PetaPétous', 'ExaPétous'];
 
     if (Number.isNaN(input)) {
       return null;

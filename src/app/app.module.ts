@@ -18,6 +18,7 @@ import {MatButton, MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import { BigvaluePipe } from './bigvalue.pipe';
 import {MatRippleModule} from "@angular/material/core";
+import { MsFormatPipe } from './ms-format.pipe';
 
 const appRoutes: Routes = [
   { path: 'gameplay', component: GameplayComponent },
@@ -31,7 +32,8 @@ const appRoutes: Routes = [
     GameplayComponent,
     AchievementsComponent,
     ProductComponent,
-    BigvaluePipe
+    BigvaluePipe,
+    MsFormatPipe
   ],
   imports: [
     BrowserModule,
