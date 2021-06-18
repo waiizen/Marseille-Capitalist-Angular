@@ -18,21 +18,35 @@ export class ProductComponent implements OnInit {
   globalMoneySubscription: Subscription;
   globalMoney: number;
   inFabrication: boolean = false;
+  _currentMulti: string;
+  initialPrice: number;
+  buyable: boolean = false;
+
+  @Input()
+  set currentMulti(value: string){
+    this._currentMulti = value;
+    this.onChangeValueMultiplier();
+  }
+
+  @Input()
+  set produit(value: Product) {
+    this.product = value;
+    this.initialPrice = this.product.cout;
+  }
 
   constructor(private service: RestServiceService, private globalMoneyService: GlobalMoneyServiceService) {
     this.server = service.getServer();
   }
 
   ngOnInit(): void {
-
     // get the global money
     this.globalMoneySubscription = this.globalMoneyService.globalMoneySubject.subscribe(
       (globalMoney: number) => {
         this.globalMoney = globalMoney;
+        this.canBuy();
       }
     );
     this.globalMoneyService.emitGlobalMoneySubject();
-
 
     // score's calculation every 100ms
     setInterval(
@@ -40,11 +54,6 @@ export class ProductComponent implements OnInit {
         this.calcScore();
       }, 100
     );
-  }
-
-  @Input()
-  set produit(value: Product) {
-    this.product = value;
   }
 
   startFabrication(){
@@ -71,5 +80,35 @@ export class ProductComponent implements OnInit {
       }
     }
   }
+
+  onChangeValueMultiplier() {
+
+    switch (this._currentMulti) {
+      case "x1":
+        console.log(this.initialPrice);
+        this.product.cout = this.initialPrice;
+        break;
+
+      case "x10":
+        this.product.cout *= 10;
+        break;
+
+      case "x100":
+        this.product.cout *= 100;
+        break;
+
+      case "Max":
+        this.product.cout *= 10;
+        break;
+    }
+
+    this.canBuy();
+  }
+
+  canBuy(){
+    if(this.product.cout <= this.globalMoney) this.buyable = true;
+    else this.buyable = false;
+  }
+
 
 }

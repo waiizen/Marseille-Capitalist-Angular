@@ -11,6 +11,8 @@ export class GameplayComponent implements OnInit {
 
   world: World = new World();
   server: string;
+  tabMulti: Array<string> = ["x1", "x10", "x100", "Max"];
+  currentMulti = this.tabMulti[0];
 
   constructor(private service: RestServiceService) {
 
@@ -23,6 +25,27 @@ export class GameplayComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  onChangeValueMultiplier() {
+    switch (this.currentMulti) {
+      case this.tabMulti[0]:
+        this.currentMulti = this.tabMulti[1];
+        break;
+
+      case this.tabMulti[1]:
+        this.currentMulti = this.tabMulti[2];
+        break;
+
+      case this.tabMulti[2]:
+        this.currentMulti = this.tabMulti[3];
+        break;
+
+      case this.tabMulti[3]:
+        this.currentMulti = this.tabMulti[0];
+        break;
+
+    }
   }
 
 

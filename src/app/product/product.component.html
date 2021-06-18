@@ -12,7 +12,7 @@
       {{this.product.timeleft | msFormat}}
     </p>
     <div class="price">
-      <button mat-raised-button><mat-icon>add_shopping_cart</mat-icon>{{this.product.cout}}$</button>
+      <button mat-raised-button [disabled]="!buyable"><mat-icon>add_shopping_cart</mat-icon>{{this.product.cout}}$</button>
     </div>
     <div class ="qtt">
       <p>{{this.product.quantite}}</p>
