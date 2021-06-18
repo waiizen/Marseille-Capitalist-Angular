@@ -3,12 +3,12 @@
     <img src="assets/marseilleLogo.png" alt="logoJeu" id="appLogo">
     <h1 id="worldName">{{world.name}}</h1>
     <ul class="menu">
-      <a mat-stroked-button routerLink="gameplay" (click)="this.isClicked = !isClicked" [class.myClass]="this.isClicked">Game</a><br>
-      <a mat-stroked-button routerLink="achievements"(click)="this.isClicked = !isClicked"  [class.myClass]="this.isClicked">Achievements</a><br>
-      <a mat-stroked-button >Upgrades</a><br>
-      <a mat-stroked-button>Managers</a><br>
-      <a mat-stroked-button>Investors</a><br>
-      <a mat-stroked-button>Coming Soon</a>
+      <a mat-stroked-button routerLink="gameplay" (click)="this.isClicked = !isClicked" [class.myClass]="this.isClicked">Jeu</a><br>
+      <a mat-stroked-button routerLink="achievements"(click)="this.isClicked = !isClicked"  [class.myClass]="this.isClicked">Succès</a><br>
+      <a mat-stroked-button >Améliorations</a><br>
+      <a mat-stroked-button routerLink="managers">Managers</a><br>
+      <a mat-stroked-button>Investisseurs</a><br>
+      <a mat-stroked-button>A suivre...</a>
     </ul>
   </mat-sidenav>
   <mat-sidenav-content>

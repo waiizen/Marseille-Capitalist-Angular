@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   isClicked: boolean;
   globalMoneySubscription: Subscription;
   globalMoney: number;
+  showManagers: boolean;
 
   constructor(private service: RestServiceService, private gmService: GlobalMoneyServiceService) {
     this.server = service.getServer();
@@ -30,6 +31,15 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(){
+    // get the global money
+    this.globalMoneySubscription = this.gmService.globalMoneySubject.subscribe(
+      (globalMoney: number) => {
+        this.globalMoney = globalMoney;
+      }
+    );
+    this.gmService.emitGlobalMoneySubject();
   }
+
+
 
 }

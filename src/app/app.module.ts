@@ -19,10 +19,12 @@ import {MatIconModule} from "@angular/material/icon";
 import { BigvaluePipe } from './bigvalue.pipe';
 import {MatRippleModule} from "@angular/material/core";
 import { MsFormatPipe } from './ms-format.pipe';
+import {ManagersComponent} from "./managers/managers.component";
 
 const appRoutes: Routes = [
   { path: 'gameplay', component: GameplayComponent },
-  { path: 'achievements', component: AchievementsComponent }
+  { path: 'achievements', component: AchievementsComponent },
+  { path: 'managers', component: ManagersComponent }
 ];
 
 @NgModule({
@@ -33,7 +35,8 @@ const appRoutes: Routes = [
     AchievementsComponent,
     ProductComponent,
     BigvaluePipe,
-    MsFormatPipe
+    MsFormatPipe,
+    ManagersComponent
   ],
   imports: [
     BrowserModule,
