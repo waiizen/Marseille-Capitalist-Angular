@@ -1,3 +1,22 @@
-.modal{
+img{
+  width: 50px;
+  height: auto;
+  margin-left: 50px;
+}
+.title{
+  text-align: center;
+}
+.managerslayout{
+  display: table;
+  margin: 0 auto;
+}
 
+.logo, .C2, .C3{
+  display: table-cell;
+  vertical-align: middle;
+}
+.C2 div{
+  text-align: center;
+  margin-right: 30px;
+  margin-left: 30px;
 }

@@ -3,6 +3,7 @@ import {Product} from "../world";
 import {RestServiceService} from "../services/rest-service.service";
 import {Subscription} from "rxjs";
 import {GlobalMoneyServiceService} from "../services/global-money-service.service";
+import {AppComponent} from "../app.component";
 
 @Component({
   selector: 'app-product',
@@ -79,6 +80,11 @@ export class ProductComponent implements OnInit {
         this.inFabrication = false;
       }
     }
+    if(this.product.managerUnlocked){//TODO si le manager pour ce produit est débloqué (à implémenter pcq je sais pas comment faire avec le manager component)
+      // quand timeleft == 0
+      // this.product.startFabrication();
+    }
+
   }
 
   onChangeValueMultiplier() {

@@ -16,7 +16,8 @@ export class AppComponent implements OnInit {
   isClicked: boolean;
   globalMoneySubscription: Subscription;
   globalMoney: number;
-  showManagers: boolean;
+  badgeManagers: number;
+  username: any;
 
   constructor(private service: RestServiceService, private gmService: GlobalMoneyServiceService) {
     this.server = service.getServer();
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit {
         this.globalMoney = this.world.money;
         this.gmService.setGlobalMoney(this.globalMoney);
         this.gmService.emitGlobalMoneySubject();
+        this.badgeManagers = 0;
       }).then(
     );
   }
@@ -38,8 +40,33 @@ export class AppComponent implements OnInit {
       }
     );
     this.gmService.emitGlobalMoneySubject();
+    this.username= localStorage.getItem("username");
+    if (this.username == ""){
+      let random = Math.floor(Math.random() * 10000);
+      this.username = "Marseillais"+random;
+      localStorage.setItem("username", this.username);
+    }
+    localStorage.setItem("username", this.username);
+    // managers calculation every 100ms
+    /*setInterval(
+      () => {
+        this.getBuyableManagers();
+      }, 3000
+    );*/
   }
 
+  getBuyableManagers(){ //TODO appeler cette méthode au bon endroit (calcScore) => utiliser service ?
+    for (let manager of this.world.managers.pallier){
+      console.log(manager);
+      if(this.globalMoney >= manager.seuil){
+        this.badgeManagers++;
+        console.log(this.badgeManagers);
+      }
+    }
+  }
 
-
+  onUsernameChanged() {
+    localStorage.setItem("username", this.username);
+    this.service.setUser(this.username);
+  }
 }

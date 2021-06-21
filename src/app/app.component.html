@@ -3,10 +3,14 @@
     <img src="assets/marseilleLogo.png" alt="logoJeu" id="appLogo">
     <h1 id="worldName">{{world.name}}</h1>
     <ul class="menu">
+      <mat-form-field class="example-full-width">
+        <mat-label>Pseudo</mat-label>
+        <input matInput [(ngModel)]="username" (change)="onUsernameChanged()">
+      </mat-form-field>
       <a mat-stroked-button routerLink="gameplay" (click)="this.isClicked = !isClicked" [class.myClass]="this.isClicked">Jeu</a><br>
       <a mat-stroked-button routerLink="achievements"(click)="this.isClicked = !isClicked"  [class.myClass]="this.isClicked">Succès</a><br>
       <a mat-stroked-button >Améliorations</a><br>
-      <a mat-stroked-button routerLink="managers">Managers</a><br>
+      <a mat-stroked-button routerLink="managers" [matBadge]="badgeManagers" [matBadgeHidden]="badgeManagers==0">Managers</a><br>
       <a mat-stroked-button>Investisseurs</a><br>
       <a mat-stroked-button>A suivre...</a>
     </ul>

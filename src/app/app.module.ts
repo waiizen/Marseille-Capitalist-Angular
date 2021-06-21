@@ -20,6 +20,11 @@ import { BigvaluePipe } from './bigvalue.pipe';
 import {MatRippleModule} from "@angular/material/core";
 import { MsFormatPipe } from './ms-format.pipe';
 import {ManagersComponent} from "./managers/managers.component";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatBadgeModule} from "@angular/material/badge";
+import {FormsModule} from "@angular/forms";
+import {MatInputModule} from "@angular/material/input";
+import {MatLabel} from "@angular/material/form-field";
 
 const appRoutes: Routes = [
   { path: 'gameplay', component: GameplayComponent },
@@ -50,7 +55,11 @@ const appRoutes: Routes = [
     MatDividerModule,
     MatButtonModule,
     MatIconModule,
-    MatRippleModule
+    MatRippleModule,
+    MatSnackBarModule,
+    MatBadgeModule,
+    FormsModule,
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

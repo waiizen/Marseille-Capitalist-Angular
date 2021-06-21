@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+  import { Injectable } from '@angular/core';
 import { World, Pallier, Product } from './../world';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -34,9 +34,14 @@ export class RestServiceService {
   }
 
   getWorld(): Promise<World> {
-    return this.http.get(this.server + "Marseille-Capitalist/generic/world")
+    return this.http.get(this.server + "Marseille-Capitalist/generic/world", {headers: this.setHeaders(this.user)})
       .toPromise().catch(this.handleError);
   }
+
+  private setHeaders(user:string) : HttpHeaders {
+    let headers = new HttpHeaders({'X-User': user});
+    return headers;
+  };
 
 
 }
