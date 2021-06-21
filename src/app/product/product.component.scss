@@ -19,7 +19,7 @@
 }
 .price{
   float:left;
-  width:50%;
+  width:70%;
   text-align: center;
 }
 .mat-progress-bar{
@@ -31,7 +31,7 @@
 
 .qtt{
   float:right;
-  width:50%;
+  width:20%;
   text-align: center;
 }
 
@@ -57,4 +57,14 @@ mat-icon{
   font-size: 18px;
   vertical-align: -5px;
   margin-right: 10%;
+}
+
+.mat-badge-content {
+  width: auto;
+  border-radius: 13px;
+  right: unset !important;
+}
+
+.grey{
+  filter: grayscale(100%);
 }

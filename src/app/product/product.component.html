@@ -1,7 +1,8 @@
 <div id="product">
   <div class="img">
     <img (click)="startFabrication()"
-         [src]="server + 'icones/' + this.product.logo">
+         [src]="server + 'icones/' + this.product.logo"
+         [ngClass]="{'grey':!isAvailable}">
   </div>
   <div class="product">
     <mat-progress-bar mode="determinate"
@@ -12,10 +13,10 @@
       {{this.product.timeleft | msFormat}}
     </p>
     <div class="price">
-      <button mat-raised-button [disabled]="!buyable"><mat-icon>add_shopping_cart</mat-icon>{{this.product.cout}}$</button>
+      <button mat-raised-button matBadge="{{this.maxQtt}}" matBadgeSize="medium" [matBadgeHidden]="!visibilityBadge" matBadgePosition="below" [disabled]="!buyable" (click)="onBuy()"><mat-icon>add_shopping_cart</mat-icon>{{this.affichagePrix.toFixed(2)}}$</button>
     </div>
     <div class ="qtt">
-      <p>{{this.product.quantite}}</p>
+      <p>{{this.product.quantite}}/50</p>
     </div>
   </div>
 </div>
