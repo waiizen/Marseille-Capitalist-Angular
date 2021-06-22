@@ -13,15 +13,16 @@ export class HeaderComponent implements OnInit {
   @Input()
   world: World;
 
-  globalmoney: number;
+  globalMoney: number;
   gmSubscription: Subscription;
 
-  constructor(private gmService: GlobalMoneyServiceService) { }
+  constructor(private gmService: GlobalMoneyServiceService) {
+  }
 
   ngOnInit(): void {
     this.gmSubscription = this .gmService.globalMoneySubject.subscribe(
       (globalmoney: number) => {
-        this.globalmoney = globalmoney;
+        this.globalMoney = globalmoney;
       }
     );
     this.gmService.emitGlobalMoneySubject();

@@ -16,7 +16,7 @@
       <button mat-raised-button matBadge="{{this.maxQtt}}" matBadgeSize="medium" [matBadgeHidden]="!visibilityBadge" matBadgePosition="below" [disabled]="!buyable" (click)="onBuy()"><mat-icon>add_shopping_cart</mat-icon>{{this.affichagePrix.toFixed(2)}}$</button>
     </div>
     <div class ="qtt">
-      <p>{{this.product.quantite}}/50</p>
+      <p>{{this.product.quantite}}/50{{this.product.managerUnlocked}}</p>
     </div>
   </div>
 </div>

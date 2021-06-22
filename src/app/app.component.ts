@@ -3,6 +3,8 @@ import { RestServiceService } from './services/rest-service.service';
 import { World, Product, Pallier } from './world';
 import {Subscription} from "rxjs";
 import {GlobalMoneyServiceService} from "./services/global-money-service.service";
+import {ProductService} from "./services/product.service";
+import {ManagerService} from "./services/manager.service";
 
 @Component({
   selector: 'app-root',
@@ -17,9 +19,12 @@ export class AppComponent implements OnInit {
   globalMoneySubscription: Subscription;
   globalMoney: number;
   badgeManagers: number;
-  username: any;
+  username: string = "";
 
-  constructor(private service: RestServiceService, private gmService: GlobalMoneyServiceService) {
+  constructor(private service: RestServiceService,
+              private gmService: GlobalMoneyServiceService,
+              private productService: ProductService,
+              private managerService: ManagerService) {
     this.server = service.getServer();
     service.getWorld().then(
       world => {
@@ -27,6 +32,10 @@ export class AppComponent implements OnInit {
         this.globalMoney = this.world.money;
         this.gmService.setGlobalMoney(this.globalMoney);
         this.gmService.emitGlobalMoneySubject();
+        this.productService.setProductList(this.world.products.product);
+        this.productService.emitProductSubject();
+        this.managerService.setManagerList(this.world.managers.pallier);
+        this.managerService.emitManagerSubject();
         this.badgeManagers = 0;
       }).then(
     );
@@ -37,11 +46,14 @@ export class AppComponent implements OnInit {
     this.globalMoneySubscription = this.gmService.globalMoneySubject.subscribe(
       (globalMoney: number) => {
         this.globalMoney = globalMoney;
+        this.getBuyableManagers();
       }
     );
     this.gmService.emitGlobalMoneySubject();
     this.username= localStorage.getItem("username");
-    if (this.username == ""){
+    console.log(this.username);
+    if (this.username == "" || this.username == null || this.username == "null"){
+      console.log("ici");
       let random = Math.floor(Math.random() * 10000);
       this.username = "Marseillais"+random;
       localStorage.setItem("username", this.username);
@@ -56,11 +68,10 @@ export class AppComponent implements OnInit {
   }
 
   getBuyableManagers(){ //TODO appeler cette méthode au bon endroit (calcScore) => utiliser service ?
+    this.badgeManagers = 0;
     for (let manager of this.world.managers.pallier){
-      console.log(manager);
-      if(this.globalMoney >= manager.seuil){
+      if(this.globalMoney >= manager.seuil && !manager.unlocked){
         this.badgeManagers++;
-        console.log(this.badgeManagers);
       }
     }
   }

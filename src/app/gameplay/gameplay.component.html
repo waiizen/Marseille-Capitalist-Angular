@@ -1,7 +1,7 @@
 <div class="product">
 
   <mat-grid-list cols="2" rowHeight="25vh">
-    <mat-grid-tile *ngFor="let product of world.products.product"><app-product [produit]="product" [currentMulti]="currentMulti" ></app-product></mat-grid-tile>
+    <mat-grid-tile *ngFor="let product of this.productList"><app-product [produit]="product" [currentMulti]="currentMulti" ></app-product></mat-grid-tile>
   </mat-grid-list>
   <button mat-raised-button id="btnMultiplier" color="accent" (click)="onChangeValueMultiplier()">{{currentMulti}}</button>
 </div>

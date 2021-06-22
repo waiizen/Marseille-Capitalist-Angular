@@ -27,6 +27,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatLabel} from "@angular/material/form-field";
 
 const appRoutes: Routes = [
+  { path: '', component: GameplayComponent},
   { path: 'gameplay', component: GameplayComponent },
   { path: 'achievements', component: AchievementsComponent },
   { path: 'managers', component: ManagersComponent }

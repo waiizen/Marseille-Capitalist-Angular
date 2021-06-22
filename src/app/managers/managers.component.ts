@@ -4,6 +4,9 @@ import {RestServiceService} from "../services/rest-service.service";
 import {GlobalMoneyServiceService} from "../services/global-money-service.service";
 import {Subscription} from "rxjs";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {ProductService} from "../services/product.service";
+import {ManagerService} from "../services/manager.service";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-managers',
@@ -17,9 +20,15 @@ export class ManagersComponent implements OnInit {
   manager: Pallier;
   isDisabled: boolean;
   globalMoneySubscription: Subscription;
-  //product: Product;
+  managerSubscription: Subscription;
+  managerList: Pallier[];
 
-  constructor(private service: RestServiceService, private globalMoneyService: GlobalMoneyServiceService, private snackBar: MatSnackBar) {
+  constructor(private service: RestServiceService,
+              private globalMoneyService: GlobalMoneyServiceService,
+              private snackBar: MatSnackBar,
+              private productService: ProductService,
+              //private managerService: ManagerService,
+              ) {
 
     this.server = service.getServer();
     service.getWorld().then(
@@ -37,6 +46,16 @@ export class ManagersComponent implements OnInit {
       }
     );
     this.globalMoneyService.emitGlobalMoneySubject();
+
+    // get the manager
+    /*
+    this.managerSubscription = this.managerService.managerSubject.subscribe(
+      (managerList: Pallier[]) => {
+        this.managerList = managerList;
+      }
+    );
+    this.managerService.emitManagerSubject();*/
+
   }
 
   hireManager(manager: Pallier) {
@@ -45,8 +64,10 @@ export class ManagersComponent implements OnInit {
       this.globalMoney = this.globalMoney - manager.seuil;
       this.globalMoneyService.setGlobalMoney(this.globalMoney);
       this.globalMoneyService.emitGlobalMoneySubject();
+      this.productService.setManagerUnlocked(manager.idcible);
+      this.productService.emitProductSubject();
       this.popMessage(manager.name +" a été recruté !");
-      //this.product.managerUnlocked = true;
+      this.service.putManager(manager);
     }else{
       manager.unlocked = false;
     }
@@ -68,5 +89,9 @@ export class ManagersComponent implements OnInit {
     } else {
       this.isDisabled = false;
     }
+  }
+
+  getProductName(id: number){
+    return this.productService.getProductName(id);
   }
 }

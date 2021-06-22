@@ -3,8 +3,6 @@ import {Product} from "../world";
 import {RestServiceService} from "../services/rest-service.service";
 import {Subscription} from "rxjs";
 import {GlobalMoneyServiceService} from "../services/global-money-service.service";
-import {AppComponent} from "../app.component";
-import {main} from "@angular/compiler-cli/src/main";
 
 @Component({
   selector: 'app-product',
@@ -44,7 +42,8 @@ export class ProductComponent implements OnInit {
     this.initialRevenu = this.product.revenu;
   }
 
-  constructor(private service: RestServiceService, private globalMoneyService: GlobalMoneyServiceService) {
+  constructor(private service: RestServiceService,
+              private globalMoneyService: GlobalMoneyServiceService) {
     this.server = service.getServer();
   }
 
@@ -66,6 +65,11 @@ export class ProductComponent implements OnInit {
     );
 
     this.checkAvailibility();
+
+    if(this.product.managerUnlocked){
+      this.startFabrication();
+    }
+
   }
 
   /**
@@ -88,6 +92,14 @@ export class ProductComponent implements OnInit {
         this.product.timeleft = this.product.timeleft - (Date.now() - this.lastUpdate);
         this.lastUpdate = Date.now();
         this.progressbarValue = ((this.product.vitesse - this.product.timeleft) / this.product.vitesse) * 100;
+      } else if(this.product.timeleft <= 0 && this.product.managerUnlocked) {
+        this.product.timeleft = 0;
+        this.progressbarValue = 0;
+        this.inFabrication = false;
+        this.globalMoney += this.product.revenu;
+        this.globalMoneyService.setGlobalMoney(this.globalMoney);
+        this.globalMoneyService.emitGlobalMoneySubject();
+        this.startFabrication();
       } else { // end
         this.product.timeleft = 0;
         this.progressbarValue = 0;
@@ -117,15 +129,11 @@ export class ProductComponent implements OnInit {
         break;
 
       case "x10":
-        console.log("10//"+"PC: "+this.product.cout + " r: "+r);
-        console.log(((this.product.cout*(1-Math.pow(r, 10)))/(1-r)));
         this.affichagePrix = ((this.product.cout*(1-Math.pow(r, 10)))/(1-r));
         this.qttToBuy = 10;
         break;
 
       case "x100":
-        console.log("100//"+"PC: "+this.product.cout + " r: "+r);
-        console.log(((this.product.cout*(1-Math.pow(r, 100)))/(1-r)));
         this.affichagePrix = ((this.product.cout*(1-Math.pow(r, 100)))/(1-r));
         this.qttToBuy = 100;
         break;

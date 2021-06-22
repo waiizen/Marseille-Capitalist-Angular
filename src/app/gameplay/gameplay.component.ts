@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { World, Product, Pallier } from '../world';
 import {RestServiceService} from "../services/rest-service.service";
+import {ProductService} from "../services/product.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-gameplay',
@@ -13,18 +15,27 @@ export class GameplayComponent implements OnInit {
   server: string;
   tabMulti: Array<string> = ["x1", "x10", "x100", "Max"];
   currentMulti = this.tabMulti[0];
+  productSubscription: Subscription;
+  productList: Product[];
 
-  constructor(private service: RestServiceService) {
+  constructor(private service: RestServiceService,
+              private productService: ProductService) {
 
     this.server = service.getServer();
     service.getWorld().then(
       world => {
         this.world = world;
-        console.log(this.world);
       });
+
   }
 
   ngOnInit(): void {
+    this.productSubscription = this.productService.productSubject.subscribe(
+      (productList: Product[]) => {
+        this.productList = productList;
+      }
+    );
+    this.productService.emitProductSubject();
   }
 
   onChangeValueMultiplier() {

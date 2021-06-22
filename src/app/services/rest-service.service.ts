@@ -34,14 +34,35 @@ export class RestServiceService {
   }
 
   getWorld(): Promise<World> {
-    return this.http.get(this.server + "Marseille-Capitalist/generic/world", {headers: this.setHeaders(this.user)})
-      .toPromise().catch(this.handleError);
+    return this.http.get(
+      this.server + "Marseille-Capitalist/generic/world", {
+        headers: this.setHeaders(this.user)
+      }
+    ).toPromise().catch(this.handleError);
   }
 
   private setHeaders(user:string) : HttpHeaders {
     let headers = new HttpHeaders({'X-User': user});
     return headers;
   };
+
+  public putManager(manager: Pallier): Promise<Response> {
+    return this.http
+      .put(this.server + 'Marseille-Capitalist/generic/manager', manager, {
+        headers: this.setHeaders(this.user),
+      })
+      .toPromise()
+      .catch(this.handleError);
+  }
+
+  public putProduct(product: Product): Promise<Response> {
+    return this.http
+      .put(this.server + 'adventuregaragiste/generic/product', product, {
+        headers: this.setHeaders(this.user),
+      })
+      .toPromise()
+      .catch(this.handleError);
+  }
 
 
 }

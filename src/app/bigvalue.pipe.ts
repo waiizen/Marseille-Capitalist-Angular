@@ -14,11 +14,11 @@ export class BigvaluePipe implements PipeTransform {
     }
 
     if (input < 1000) {
-      return input + " Pétous";
+      return input.toFixed(2) + " Pétous";
     }
 
     if (input < 1000000) {
-      return input /1000 + " Pétous";
+      return input.toFixed(2) + " Pétous";
     }
 
     exp = Math.floor(Math.log(input) / Math.log(1000));
