@@ -28,6 +28,7 @@ import {MatLabel} from "@angular/material/form-field";
 import { ModalUsernameComponent } from './modal-username/modal-username.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { UpgradesComponent } from './upgrades/upgrades.component';
+import { AngelComponent } from './angel/angel.component';
 
 const appRoutes: Routes = [
   { path: '', component: GameplayComponent},
@@ -49,7 +50,8 @@ const appRoutes: Routes = [
     ManagersComponent,
     ModalUsernameComponent,
     ManagersComponent,
-    UpgradesComponent
+    UpgradesComponent,
+    AngelComponent
   ],
   imports: [
     BrowserModule,

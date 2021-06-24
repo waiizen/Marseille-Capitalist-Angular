@@ -6,8 +6,7 @@
     <div *ngFor="let upgrade of upgradesList;">{{setUpgrade(upgrade)}}
       <div *ngIf="!upgrade.unlocked" class="upgradelayout">
         <div class="logo">
-          <!-- <img class="round" [attr.src]="server+manager.logo" /> //TODO -->
-          <img class="round" src="https://previews.123rf.com/images/lkeskinen/lkeskinen1802/lkeskinen180208322/95731150-example-stamp-typographic-label-stamp-or-icon.jpg"/>
+          <img class="round" [src]="server + 'icones/' + upgrade.logo" />
         </div>
         <div class="C2">
           <div class="upgradename"> {{ upgrade.name}} </div>

@@ -64,5 +64,14 @@ export class RestServiceService {
       .catch(this.handleError);
   }
 
+  public putUpgrade(upgrade: Pallier): Promise<Response> {
+    return this.http
+      .put(this.server + 'Marseille-Capitalist/generic/upgrade', upgrade, {
+        headers: this.setHeaders(this.user),
+      })
+      .toPromise()
+      .catch(this.handleError);
+  }
+
 
 }

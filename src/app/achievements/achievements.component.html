@@ -1,22 +1,19 @@
 <div class="modal">
   <div>
-    <h1 class="title">Les unlocks</h1>
+    <h1 class="title">Les succès</h1>
   </div>
   <div>
-    <div *ngFor="let unlock of world.products.product;">
-        <div *ngFor="let u of unlock.palliers.pallier;">
-
-          <div *ngIf="!u.unlocked" class="unlocklayout">
+    <div *ngFor="let unlock of this.achievementsList;">
+      <div *ngFor="let u of unlock.palliers.pallier;">
+        <div *ngIf="!u.unlocked" class="unlocklayout">
           <div class="logo">
-            <!-- <img class="round" [attr.src]="server+manager.logo" /> //TODO -->
-            <img class="round" src="https://previews.123rf.com/images/lkeskinen/lkeskinen1802/lkeskinen180208322/95731150-example-stamp-typographic-label-stamp-or-icon.jpg"/>
+            <img class="round" [src]="server + 'icones/' + u.logo"/>
           </div>
           <div class="C2">
             <div class="unlockname"> {{ u.name}} </div>
             <div class="unlockbonus">débloque {{ u.typeratio}} x {{u.ratio}} </div>
-            <div class="unlockquantity"> {{ u.seuil }} </div>
+            <div class="unlockquantity">Seuil : {{ u.seuil }} </div>
           </div>
-        </div>
         </div>
       </div>
     </div>

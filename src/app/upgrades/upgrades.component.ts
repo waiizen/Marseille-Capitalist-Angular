@@ -66,6 +66,7 @@ export class UpgradesComponent implements OnInit {
       this.productService.setProductAfterUpgrade(upgrade.idcible, upgrade.typeratio, upgrade.ratio);
       this.popMessage("Vous avez acheté "+upgrade.name);
       this.upgradesService.emitUpgradesSubject();
+      this.service.putUpgrade(upgrade);
     }else{
       upgrade.unlocked = false;
     }

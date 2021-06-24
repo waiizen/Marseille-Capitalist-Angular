@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import {Pallier, World} from "../world";
+import {Component, OnInit} from '@angular/core';
+import {Pallier, Product, World} from "../world";
 import {RestServiceService} from "../services/rest-service.service";
 import {GlobalMoneyServiceService} from "../services/global-money-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ProductService} from "../services/product.service";
 import {Subscription} from "rxjs";
+import {AchievementsService} from "../services/achievements.service";
+import {ManagerService} from "../services/manager.service";
 
 @Component({
   selector: 'app-achievements',
@@ -13,18 +15,20 @@ import {Subscription} from "rxjs";
 })
 export class AchievementsComponent implements OnInit {
   world: World = new World();
-  private server: string;
+  server: string;
   isDisabled: boolean;
-  private globalMoneySubscription: Subscription;
-  private globalMoney: number;
+  globalMoneySubscription: Subscription;
+  globalMoney: number;
   unlock: Pallier;
+  achievementsSubscription: Subscription;
+  achievementsList: Product[] = [];
 
   constructor(private service: RestServiceService,
               private globalMoneyService: GlobalMoneyServiceService,
               private snackBar: MatSnackBar,
               private productService: ProductService,
-              //private managerService: ManagerService,
-  ) {
+              private achievementsService: AchievementsService,
+              private managerService: ManagerService) {
 
     this.server = service.getServer();
     service.getWorld().then(
@@ -42,8 +46,13 @@ export class AchievementsComponent implements OnInit {
       }
     );
     this.globalMoneyService.emitGlobalMoneySubject();
+    this.achievementsSubscription = this.achievementsService.achievementsSubject.subscribe(
+      (achievementsList: any) => {
+        this.achievementsList = achievementsList;
+      }
+    );
+    this.achievementsService.emitAchievementsSubject();
   }
-
 
 
 }

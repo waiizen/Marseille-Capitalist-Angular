@@ -1,16 +1,17 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Pallier, Product} from "../world";
 import {RestServiceService} from "../services/rest-service.service";
 import {Subscription} from "rxjs";
 import {GlobalMoneyServiceService} from "../services/global-money-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {AchievementsService} from "../services/achievements.service";
 
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.scss']
 })
-export class ProductComponent implements OnInit {
+export class ProductComponent implements OnInit, OnDestroy {
 
   product: Product;
   progressbarValue: number;
@@ -30,6 +31,8 @@ export class ProductComponent implements OnInit {
   affichagePrix2: number;
   affichageRevenu: number;
   showVitesse: boolean = true;
+  interval;
+  achievementsSubscription: Subscription;
 
   @Input()
   set currentMulti(value: string) {
@@ -43,12 +46,25 @@ export class ProductComponent implements OnInit {
     this.initialPrice = this.product.cout;
     this.affichagePrix2 = this.product.cout;
     if (this.product.quantite > 1) this.affichagePrix2 = this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1);
-    this.affichageRevenu = this.product.revenu * this.product.quantite;
+    if (this.product.quantite > 1) this.affichageRevenu = this.product.revenu * this.product.quantite;
+    else this.affichageRevenu = this.product.revenu;
   }
 
   constructor(private service: RestServiceService,
-              private globalMoneyService: GlobalMoneyServiceService, private snackBar: MatSnackBar) {
+              private globalMoneyService: GlobalMoneyServiceService,
+              private snackBar: MatSnackBar,
+              private achievementsService: AchievementsService) {
     this.server = service.getServer();
+  }
+
+  /**
+   * Executée a la fermeture du component
+   * Ici très important, puisque permet de clear les intervalles existants
+   * et donc de ne pas en recréer à l'init, ce qui dupliquerait les intervalles, et
+   * rendrait le calcul du score completement incohérent
+   */
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
   }
 
   ngOnInit(): void {
@@ -62,7 +78,7 @@ export class ProductComponent implements OnInit {
     this.globalMoneyService.emitGlobalMoneySubject();
 
     // score's calculation every 100ms
-    setInterval(
+    this.interval = setInterval(
       () => {
         this.calcScore();
       }, 100
@@ -98,7 +114,7 @@ export class ProductComponent implements OnInit {
       this.product.timeleft -= currentTime - this.lastUpdate;
       this.lastUpdate = currentTime;
       if (this.product.timeleft <= 0) { // fabrication finie
-        if(this.product.managerUnlocked) this.product.timeleft = this.product.vitesse;
+        if (this.product.managerUnlocked) this.product.timeleft = this.product.vitesse;
         else this.product.timeleft = 0;
         this.progressbarValue = 0;
         this.inFabrication = false;
@@ -168,9 +184,11 @@ export class ProductComponent implements OnInit {
     if (this.qttToBuy > 1) {
       this.product.quantite += this.qttToBuy;
       this.calcProchainCout(this.product.quantite - 1);
+      this.achievementsService.getFirstAchievement(this.product.id, this.product.quantite);
     } else { // sinon passer la quantité apres le calcul du nouveau cout
       this.calcProchainCout(this.product.quantite);
       this.product.quantite += this.qttToBuy;
+      this.achievementsService.getFirstAchievement(this.product.id, this.product.quantite);
     }
     // si nouveau produit, degrise
     this.checkAvailibility();
@@ -181,7 +199,9 @@ export class ProductComponent implements OnInit {
     this.service.putProduct(this.product);
   }
 
-  popMessage(message:string):void{this.snackBar.open(message,"",{duration:2000})}
+  popMessage(message: string): void {
+    this.snackBar.open(message, "", {duration: 2000})
+  }
 
   /**
    * Méthode pour calculer le maximum de produit qu'on peut acheter
@@ -211,8 +231,8 @@ export class ProductComponent implements OnInit {
     else this.isAvailable = false;
   }
 
-  checkUnlocks(){ //TODO
-    if(this.product.quantite == this.unlock.seuil){
+  checkUnlocks() { //TODO
+    if (this.product.quantite == this.unlock.seuil) {
       console.log("débloqué");
       this.unlock.unlocked = true;
     }

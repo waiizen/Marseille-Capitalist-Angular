@@ -1,17 +1,23 @@
 img{
-  width: 50px;
+  width: 70px;
   height: auto;
-  margin-left: 50px;
+  margin-left: 10px;
 }
 .title{
   text-align: center;
+}
+button{
+  margin-right: 10px;
 }
 .unlocklayout{
   display: table;
   margin: 0 auto;
 }
-
-.logo, .C2, .C3{
+.unlocklayout:hover{
+  border-radius: 10px;
+  background-color: lightblue;
+}
+.logo, .C2{
   display: table-cell;
   vertical-align: middle;
 }
@@ -19,4 +25,20 @@ img{
   text-align: center;
   margin-right: 30px;
   margin-left: 30px;
+}
+
+.unlockname{
+  margin-top: 10px;
+  font-weight: bold;
+  color: #0ca6e3;
+}
+
+.unlockbonus{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size:85%;
+  color : grey;
+}
+.unlockquantity{
+  margin-bottom: 10px;
 }

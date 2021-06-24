@@ -8,20 +8,27 @@
     <mat-progress-bar mode="determinate"
                       [value]="progressbarValue"></mat-progress-bar>
     <p *ngIf="showVitesse">
-      <mat-icon>savings</mat-icon>{{this.affichageRevenu}}€&nbsp;&nbsp;-&nbsp;&nbsp;
+      <mat-icon>savings</mat-icon>
+      {{this.affichageRevenu}}€&nbsp;&nbsp;-&nbsp;&nbsp;
       <mat-icon>access_time_filled</mat-icon>
       {{this.product.vitesse | msFormat}}
     </p>
     <p *ngIf="!showVitesse">
-      <mat-icon>savings</mat-icon>{{this.affichageRevenu}}€&nbsp;&nbsp;-&nbsp;&nbsp;
+      <mat-icon>savings</mat-icon>
+      {{this.affichageRevenu}}€&nbsp;&nbsp;-&nbsp;&nbsp;
       <mat-icon>access_time_filled</mat-icon>
       {{this.product.timeleft | msFormat}}
     </p>
     <div class="price">
-      <button mat-raised-button matBadge="{{this.maxQtt}}" matBadgeSize="medium" [matBadgeHidden]="!visibilityBadge" matBadgePosition="below" [disabled]="!buyable" (click)="onBuy()"><mat-icon>add_shopping_cart</mat-icon>{{this.affichagePrix2.toFixed(2)}}$</button>
+      <button mat-raised-button matBadge="{{this.maxQtt}}" matBadgeSize="medium" [matBadgeHidden]="!visibilityBadge"
+              matBadgePosition="below" [disabled]="!buyable" (click)="onBuy()">
+        <mat-icon>add_shopping_cart</mat-icon>
+        {{this.affichagePrix2.toFixed(2)}}$
+      </button>
     </div>
-    <div class ="qtt">
-      <p>{{this.product.quantite}}/50{{this.product.managerUnlocked}}</p>
+    <div class="qtt">
+      <p><mat-icon>shopping_cart</mat-icon>{{this.product.quantite}}
+      </p>
     </div>
   </div>
 </div>

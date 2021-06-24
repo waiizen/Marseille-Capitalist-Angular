@@ -8,6 +8,7 @@ import {ManagerService} from "./services/manager.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ModalUsernameComponent} from "./modal-username/modal-username.component";
 import {UpgradesService} from "./services/upgrades.service";
+import {AchievementsService} from "./services/achievements.service";
 
 export interface DialogData {
   username: string;
@@ -34,6 +35,7 @@ export class AppComponent implements OnInit {
               private productService: ProductService,
               private managerService: ManagerService,
               private upgradesService: UpgradesService,
+              private achievementsService: AchievementsService,
               private dialog: MatDialog) {
 
     this.username = localStorage.getItem("username");
@@ -60,6 +62,8 @@ export class AppComponent implements OnInit {
         this.managerService.emitManagerSubject();
         this.upgradesService.setUpgradesList(this.world.upgrades.pallier);
         this.upgradesService.emitUpgradesSubject();
+        this.achievementsService.setAchievementsList(this.world.products.product);
+        this.achievementsService.emitAchievementsSubject();
         this.badgeManagers = 0;
         this.badgeUpgrades = 0;
       }).then(
