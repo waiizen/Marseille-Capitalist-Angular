@@ -49,8 +49,6 @@ export class UpgradesComponent implements OnInit {
     this.upgradesSubscription = this.upgradesService.upgradesSubject.subscribe(
       (upgradeList: Pallier[]) => {
         this.upgradesList = upgradeList;
-        console.log("------------------");
-        for(let up of upgradeList) console.log(up);
       }
     );
     this.upgradesService.emitUpgradesSubject();
@@ -61,10 +59,7 @@ export class UpgradesComponent implements OnInit {
 
   upgradeProd(upgrade: Pallier) {
     if (this.globalMoney >= upgrade.seuil) { // si on a assez d'argent pour acheter
-      console.log(upgrade);
       upgrade.unlocked = true;
-
-      console.log(upgrade);
       this.globalMoney = this.globalMoney - upgrade.seuil;
       this.globalMoneyService.setGlobalMoney(this.globalMoney);
       this.globalMoneyService.emitGlobalMoneySubject();

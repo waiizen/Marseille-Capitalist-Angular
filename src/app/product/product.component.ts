@@ -136,9 +136,7 @@ export class ProductComponent implements OnInit {
         break;
 
       case "Max":
-        console.log("MAX------");
         this.maxQtt = Math.trunc(this.calcMaxCanBuy());
-        console.log("MAX: " + this.maxQtt);
         if (this.maxQtt > 0) {
           this.visibilityBadge = true;
           this.affichagePrix2 = (((this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1)) * (1 - Math.pow(r, this.maxQtt))) / (1 - r));
@@ -168,7 +166,6 @@ export class ProductComponent implements OnInit {
     this.globalMoneyService.emitGlobalMoneySubject();
     // si on achete plusieurs produit en meme temps, alors passer la quantité avant le calcul du nouveau cout
     if (this.qttToBuy > 1) {
-      console.log("sarah");
       this.product.quantite += this.qttToBuy;
       this.calcProchainCout(this.product.quantite - 1);
     } else { // sinon passer la quantité apres le calcul du nouveau cout
@@ -199,9 +196,7 @@ export class ProductComponent implements OnInit {
    * Méthode pour calculer le cout du prochain produit
    */
   calcProchainCout(qt: number) {
-    console.log("calc1:" + this.product.cout + " " + this.initialPrice + " " + this.product.croissance + " " + qt);
     this.affichagePrix2 = this.initialPrice * Math.pow(this.product.croissance, qt);
-    console.log("calc2:" + this.product.cout);
   }
 
   /**

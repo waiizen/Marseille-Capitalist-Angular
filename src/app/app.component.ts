@@ -37,9 +37,7 @@ export class AppComponent implements OnInit {
               private dialog: MatDialog) {
 
     this.username = localStorage.getItem("username");
-    console.log("t.username:" + this.username);
     if (this.username == "" || this.username == null || this.username == "null" || this.username == "undefined") {
-      console.log("ici");
       let random = Math.floor(Math.random() * 10000);
       this.username = "Marseillais" + random;
     }
@@ -63,7 +61,6 @@ export class AppComponent implements OnInit {
         this.upgradesService.setUpgradesList(this.world.upgrades.pallier);
         this.upgradesService.emitUpgradesSubject();
         this.badgeManagers = 0;
-        console.log(this.world);
         this.badgeUpgrades = 0;
       }).then(
     );
