@@ -25,6 +25,8 @@ import {MatBadgeModule} from "@angular/material/badge";
 import {FormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatLabel} from "@angular/material/form-field";
+import { ModalUsernameComponent } from './modal-username/modal-username.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 const appRoutes: Routes = [
   { path: '', component: GameplayComponent},
@@ -42,7 +44,8 @@ const appRoutes: Routes = [
     ProductComponent,
     BigvaluePipe,
     MsFormatPipe,
-    ManagersComponent
+    ManagersComponent,
+    ModalUsernameComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +64,7 @@ const appRoutes: Routes = [
     MatBadgeModule,
     FormsModule,
     MatInputModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,10 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import { RestServiceService } from './services/rest-service.service';
-import { World, Product, Pallier } from './world';
+import {RestServiceService} from './services/rest-service.service';
+import {World, Product, Pallier} from './world';
 import {Subscription} from "rxjs";
 import {GlobalMoneyServiceService} from "./services/global-money-service.service";
 import {ProductService} from "./services/product.service";
 import {ManagerService} from "./services/manager.service";
+import {MatDialog} from "@angular/material/dialog";
+import {ModalUsernameComponent} from "./modal-username/modal-username.component";
+
+export interface DialogData {
+  username: string;
+}
 
 @Component({
   selector: 'app-root',
@@ -24,11 +30,26 @@ export class AppComponent implements OnInit {
   constructor(private service: RestServiceService,
               private gmService: GlobalMoneyServiceService,
               private productService: ProductService,
-              private managerService: ManagerService) {
+              private managerService: ManagerService,
+              private dialog: MatDialog) {
+
+    this.username = localStorage.getItem("username");
+    console.log("t.username:"+this.username);
+    if (this.username == "" || this.username == null || this.username == "null" || this.username == "undefined") {
+      console.log("ici");
+      let random = Math.floor(Math.random() * 10000);
+      this.username = "Marseillais" + random;
+    }
+    localStorage.setItem("username", this.username);
+    this.service.setUser(this.username);
+
+
     this.server = service.getServer();
     service.getWorld().then(
       world => {
         this.world = world;
+
+        console.log(this.world);
         this.globalMoney = this.world.money;
         this.gmService.setGlobalMoney(this.globalMoney);
         this.gmService.emitGlobalMoneySubject();
@@ -37,11 +58,12 @@ export class AppComponent implements OnInit {
         this.managerService.setManagerList(this.world.managers.pallier);
         this.managerService.emitManagerSubject();
         this.badgeManagers = 0;
+        console.log(this.world);
       }).then(
     );
   }
 
-  ngOnInit(){
+  ngOnInit() {
     // get the global money
     this.globalMoneySubscription = this.gmService.globalMoneySubject.subscribe(
       (globalMoney: number) => {
@@ -50,34 +72,41 @@ export class AppComponent implements OnInit {
       }
     );
     this.gmService.emitGlobalMoneySubject();
-    this.username= localStorage.getItem("username");
-    console.log(this.username);
-    if (this.username == "" || this.username == null || this.username == "null"){
-      console.log("ici");
-      let random = Math.floor(Math.random() * 10000);
-      this.username = "Marseillais"+random;
-      localStorage.setItem("username", this.username);
-    }
-    localStorage.setItem("username", this.username);
+
     // managers calculation every 100ms
-    /*setInterval(
+    setInterval(
       () => {
         this.getBuyableManagers();
       }, 3000
-    );*/
+    );
   }
 
-  getBuyableManagers(){ //TODO appeler cette méthode au bon endroit (calcScore) => utiliser service ?
+  getBuyableManagers() { //TODO appeler cette méthode au bon endroit (calcScore) => utiliser service ?
     this.badgeManagers = 0;
-    for (let manager of this.world.managers.pallier){
-      if(this.globalMoney >= manager.seuil && !manager.unlocked){
+    for (let manager of this.world.managers.pallier) {
+      if (this.globalMoney >= manager.seuil && !manager.unlocked) {
         this.badgeManagers++;
       }
     }
   }
 
-  onUsernameChanged() {
-    localStorage.setItem("username", this.username);
-    this.service.setUser(this.username);
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ModalUsernameComponent, {
+      data: {name: this.username}
+    });
+
+    dialogRef.afterClosed().subscribe(
+      (result) => {
+        if (result == "" || result == null || result == "null" || result == "undefined") {
+          let random = Math.floor(Math.random() * 10000);
+          this.username = "Marseillais" + random;
+        } else {
+          this.username = result;
+        }
+        localStorage.setItem("username", this.username);
+        this.service.setUser(this.username);
+        location.reload();
+      });
   }
+
 }

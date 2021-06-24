@@ -26,6 +26,7 @@ export class RestServiceService {
 
   setUser(user: string){
     this.user = user;
+    console.log("setUser"+ this.user);
   }
 
   private handleError(error: any): Promise<any> {
@@ -34,6 +35,7 @@ export class RestServiceService {
   }
 
   getWorld(): Promise<World> {
+    console.log("setHeader:"+this.user);
     return this.http.get(
       this.server + "Marseille-Capitalist/generic/world", {
         headers: this.setHeaders(this.user)
@@ -56,8 +58,9 @@ export class RestServiceService {
   }
 
   public putProduct(product: Product): Promise<Response> {
+    console.log("letsgo");
     return this.http
-      .put(this.server + 'adventuregaragiste/generic/product', product, {
+      .put(this.server + 'Marseille-Capitalist/generic/product', product, {
         headers: this.setHeaders(this.user),
       })
       .toPromise()

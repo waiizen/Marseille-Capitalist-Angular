@@ -68,3 +68,11 @@ mat-icon{
 .grey{
   filter: grayscale(100%);
 }
+
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: #0ca6e3;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: rgb(208, 216, 217);
+}

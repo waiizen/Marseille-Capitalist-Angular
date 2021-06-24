@@ -20,13 +20,14 @@ export class ProductComponent implements OnInit {
   inFabrication: boolean = false;
   _currentMulti: string;
   buyable: boolean = false;
-  initialRevenu: number;h
-  affichagePrix: number;
   initialPrice: number;
   visibilityBadge: boolean = false;
   maxQtt: number = 0;
   qttToBuy: number = 1;
   isAvailable = false;
+  affichagePrix2: number;
+  affichageRevenu: number;
+  showVitesse: boolean = true;
 
   @Input()
   set currentMulti(value: string) {
@@ -36,10 +37,12 @@ export class ProductComponent implements OnInit {
 
   @Input()
   set produit(value: Product) {
+    console.log(value);
     this.product = value;
     this.initialPrice = this.product.cout;
-    this.updateAffichagePrix();
-    this.initialRevenu = this.product.revenu;
+    this.affichagePrix2 = this.product.cout;
+    if (this.product.quantite > 1) this.affichagePrix2 = this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1);
+    this.affichageRevenu = this.product.revenu * this.product.quantite;
   }
 
   constructor(private service: RestServiceService,
@@ -66,7 +69,7 @@ export class ProductComponent implements OnInit {
 
     this.checkAvailibility();
 
-    if(this.product.managerUnlocked){
+    if (this.product.managerUnlocked) {
       this.startFabrication();
     }
 
@@ -76,10 +79,12 @@ export class ProductComponent implements OnInit {
    * Méthode qui lance la fabrication
    */
   startFabrication() {
+    console.log(this.inFabrication + " " + this.product.quantite);
     if (!this.inFabrication && this.product.quantite > 0) {
       this.product.timeleft = this.product.vitesse;
       this.lastUpdate = Date.now();
       this.inFabrication = true;
+      this.showVitesse = false;
     }
   }
 
@@ -87,33 +92,24 @@ export class ProductComponent implements OnInit {
    * Méthode qui calcule le score du produit en cours de fabrication
    */
   calcScore() {
-    if (this.product.timeleft != 0) {
-      if (this.product.timeleft > 0) { // si timeleft est supérieur à 0
-        this.product.timeleft = this.product.timeleft - (Date.now() - this.lastUpdate);
-        this.lastUpdate = Date.now();
+    if (this.product.timeleft !== 0 || (this.product.managerUnlocked && this.product.quantite > 0)) {
+      this.showVitesse = false;
+      let currentTime = Date.now();
+      this.product.timeleft -= currentTime - this.lastUpdate;
+      this.lastUpdate = currentTime;
+      if (this.product.timeleft <= 0) { // fabrication finie
+        if(this.product.managerUnlocked) this.product.timeleft = this.product.vitesse;
+        else this.product.timeleft = 0;
+        this.progressbarValue = 0;
+        this.inFabrication = false;
+        this.showVitesse = true;
+        this.globalMoney += this.affichageRevenu;
+        this.globalMoneyService.setGlobalMoney(this.globalMoney);
+        this.globalMoneyService.emitGlobalMoneySubject();
+      } else { // sinon update progressbar
         this.progressbarValue = ((this.product.vitesse - this.product.timeleft) / this.product.vitesse) * 100;
-      } else if(this.product.timeleft <= 0 && this.product.managerUnlocked) {
-        this.product.timeleft = 0;
-        this.progressbarValue = 0;
-        this.inFabrication = false;
-        this.globalMoney += this.product.revenu;
-        this.globalMoneyService.setGlobalMoney(this.globalMoney);
-        this.globalMoneyService.emitGlobalMoneySubject();
-        this.startFabrication();
-      } else { // end
-        this.product.timeleft = 0;
-        this.progressbarValue = 0;
-        this.globalMoney += this.product.revenu;
-        this.globalMoneyService.setGlobalMoney(this.globalMoney);
-        this.globalMoneyService.emitGlobalMoneySubject();
-        this.inFabrication = false;
       }
     }
-    if (this.product.managerUnlocked) {//TODO si le manager pour ce produit est débloqué (à implémenter pcq je sais pas comment faire avec le manager component)
-      // quand timeleft == 0
-      // this.product.startFabrication();
-    }
-
   }
 
   /**
@@ -124,25 +120,28 @@ export class ProductComponent implements OnInit {
     this.visibilityBadge = false;
     switch (this._currentMulti) {
       case "x1":
-        this.affichagePrix = this.product.cout;
+        this.affichagePrix2 = this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1);
         this.qttToBuy = 1;
         break;
 
       case "x10":
-        this.affichagePrix = ((this.product.cout*(1-Math.pow(r, 10)))/(1-r));
+        this.affichagePrix2 = (((this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1)) * (1 - Math.pow(r, 10))) / (1 - r));
         this.qttToBuy = 10;
         break;
 
       case "x100":
-        this.affichagePrix = ((this.product.cout*(1-Math.pow(r, 100)))/(1-r));
+        this.affichagePrix2 = (((this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1)) * (1 - Math.pow(r, 100))) / (1 - r));
         this.qttToBuy = 100;
         break;
 
       case "Max":
+        console.log("MAX------");
         this.maxQtt = Math.trunc(this.calcMaxCanBuy());
-        if(this.maxQtt > 0) {
+        console.log("MAX: " + this.maxQtt);
+        if (this.maxQtt > 0) {
           this.visibilityBadge = true;
-          this.affichagePrix = ((this.product.cout * (1 - Math.pow(r, this.maxQtt))) / (1 - r));
+          this.affichagePrix2 = (((this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1)) * (1 - Math.pow(r, this.maxQtt))) / (1 - r));
+          this.qttToBuy = this.maxQtt;
         }
 
         break;
@@ -155,7 +154,7 @@ export class ProductComponent implements OnInit {
    * Desactive si pas assez, active sinon
    */
   canBuy() {
-    if (this.affichagePrix <= this.globalMoney) this.buyable = true;
+    if (this.affichagePrix2 <= this.globalMoney) this.buyable = true;
     else this.buyable = false;
   }
 
@@ -164,20 +163,24 @@ export class ProductComponent implements OnInit {
    */
   onBuy() {
     // update de l'argent du joueur
-    this.globalMoneyService.setGlobalMoney(this.globalMoney - this.affichagePrix);
+    this.globalMoneyService.setGlobalMoney(this.globalMoney - this.affichagePrix2);
     this.globalMoneyService.emitGlobalMoneySubject();
-    // ajoute une quantité au produit
-    this.product.quantite += this.qttToBuy;
+    // si on achete plusieurs produit en meme temps, alors passer la quantité avant le calcul du nouveau cout
+    if (this.qttToBuy > 1) {
+      console.log("sarah");
+      this.product.quantite += this.qttToBuy;
+      this.calcProchainCout(this.product.quantite - 1);
+    } else { // sinon passer la quantité apres le calcul du nouveau cout
+      this.calcProchainCout(this.product.quantite);
+      this.product.quantite += this.qttToBuy;
+    }
     // si nouveau produit, degrise
     this.checkAvailibility();
-    // calcul du cout du prochain produit
-    this.calcProchainCout(this.product.quantite);
     // calcul du nouveau revenu
     this.calcNewRevenu();
-    // update l'affichage du prix en fonction du cout du produit
-    this.updateAffichagePrix();
     // update la value en fonction du multiplier
     this.onChangeValueMultiplier();
+    this.service.putProduct(this.product);
   }
 
   /**
@@ -185,33 +188,28 @@ export class ProductComponent implements OnInit {
    */
   calcMaxCanBuy() {
     let r = this.product.croissance;
-    let n = (Math.log(1- ( (this.globalMoney* (1-r) ) / this.product.cout ))) / Math.log(r);
+    let n = (Math.log(1 - ((this.globalMoney * (1 - r)) / (this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1))))) / Math.log(r);
     return n;
   }
 
   /**
    * Méthode pour calculer le cout du prochain produit
    */
-  calcProchainCout(qt: number){
-    this.product.cout = this.initialPrice * Math.pow(this.product.croissance,qt);
+  calcProchainCout(qt: number) {
+    console.log("calc1:" + this.product.cout + " " + this.initialPrice + " " + this.product.croissance + " " + qt);
+    this.affichagePrix2 = this.initialPrice * Math.pow(this.product.croissance, qt);
+    console.log("calc2:" + this.product.cout);
   }
 
   /**
    * Méthode qui calcule le prochain revenu
    */
-  calcNewRevenu(){
-    this.product.revenu = this.initialRevenu * this.product.quantite;
+  calcNewRevenu() {
+    this.affichageRevenu = this.product.revenu * this.product.quantite;
   }
 
-  /**
-   * Méthode qui update l'affichage du prix en fonction du cout du produit
-   */
-  updateAffichagePrix(){
-    this.affichagePrix = this.product.cout;
-  }
-
-  checkAvailibility(){
-    if(this.product.quantite > 0) this.isAvailable = true;
+  checkAvailibility() {
+    if (this.product.quantite > 0) this.isAvailable = true;
     else this.isAvailable = false;
   }
 

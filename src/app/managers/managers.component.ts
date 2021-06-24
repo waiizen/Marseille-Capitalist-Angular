@@ -27,7 +27,7 @@ export class ManagersComponent implements OnInit {
               private globalMoneyService: GlobalMoneyServiceService,
               private snackBar: MatSnackBar,
               private productService: ProductService,
-              //private managerService: ManagerService,
+              private managerService: ManagerService,
               ) {
 
     this.server = service.getServer();
@@ -48,13 +48,12 @@ export class ManagersComponent implements OnInit {
     this.globalMoneyService.emitGlobalMoneySubject();
 
     // get the manager
-    /*
     this.managerSubscription = this.managerService.managerSubject.subscribe(
       (managerList: Pallier[]) => {
         this.managerList = managerList;
       }
     );
-    this.managerService.emitManagerSubject();*/
+    this.managerService.emitManagerSubject();
 
   }
 
