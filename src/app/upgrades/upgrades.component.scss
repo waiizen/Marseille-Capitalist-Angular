@@ -1,0 +1,44 @@
+img{
+  width: 70px;
+  height: auto;
+  margin-left: 10px;
+}
+.title{
+  text-align: center;
+}
+button{
+  margin-right: 10px;
+}
+.upgradelayout{
+  display: table;
+  margin: 0 auto;
+}
+.upgradelayout:hover{
+  border-radius: 10px;
+  background-color: lightblue;
+}
+.logo, .C2, .C3{
+  display: table-cell;
+  vertical-align: middle;
+}
+.C2 div{
+  text-align: center;
+  margin-right: 30px;
+  margin-left: 30px;
+}
+
+.upgradename{
+  margin-top: 10px;
+  font-weight: bold;
+  color: #0ca6e3;
+}
+
+.upgraderatio{
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size:85%;
+  color : grey;
+}
+.upgradecost{
+  margin-bottom: 10px;
+}

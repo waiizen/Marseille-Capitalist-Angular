@@ -1,0 +1,23 @@
+<div class="modal">
+  <div>
+    <h1 class="title">Les améliorations</h1>
+  </div>
+  <div>
+    <div *ngFor="let upgrade of upgradesList;">{{setUpgrade(upgrade)}}
+      <div *ngIf="!upgrade.unlocked" class="upgradelayout">
+        <div class="logo">
+          <!-- <img class="round" [attr.src]="server+manager.logo" /> //TODO -->
+          <img class="round" src="https://previews.123rf.com/images/lkeskinen/lkeskinen1802/lkeskinen180208322/95731150-example-stamp-typographic-label-stamp-or-icon.jpg"/>
+        </div>
+        <div class="C2">
+          <div class="upgradename"> {{ upgrade.name}} </div>
+          <div class="upgraderatio">Augmente le {{ upgrade.typeratio}} x{{upgrade.ratio}} de {{ this.getProductName(upgrade.idcible) }}</div>
+          <div class="upgradecost">{{upgrade.seuil |bigvalue}}</div>
+        </div>
+        <div class="C3">
+          <button mat-raised-button (click)="upgradeProd(upgrade)" [disabled]="isDisabled">Acheter !</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Product} from "../world";
+import {Pallier, Product} from "../world";
 import {RestServiceService} from "../services/rest-service.service";
 import {Subscription} from "rxjs";
 import {GlobalMoneyServiceService} from "../services/global-money-service.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-product',
@@ -25,6 +26,7 @@ export class ProductComponent implements OnInit {
   maxQtt: number = 0;
   qttToBuy: number = 1;
   isAvailable = false;
+  unlock: Pallier;
   affichagePrix2: number;
   affichageRevenu: number;
   showVitesse: boolean = true;
@@ -37,7 +39,6 @@ export class ProductComponent implements OnInit {
 
   @Input()
   set produit(value: Product) {
-    console.log(value);
     this.product = value;
     this.initialPrice = this.product.cout;
     this.affichagePrix2 = this.product.cout;
@@ -46,7 +47,7 @@ export class ProductComponent implements OnInit {
   }
 
   constructor(private service: RestServiceService,
-              private globalMoneyService: GlobalMoneyServiceService) {
+              private globalMoneyService: GlobalMoneyServiceService, private snackBar: MatSnackBar) {
     this.server = service.getServer();
   }
 
@@ -79,7 +80,6 @@ export class ProductComponent implements OnInit {
    * Méthode qui lance la fabrication
    */
   startFabrication() {
-    console.log(this.inFabrication + " " + this.product.quantite);
     if (!this.inFabrication && this.product.quantite > 0) {
       this.product.timeleft = this.product.vitesse;
       this.lastUpdate = Date.now();
@@ -110,6 +110,7 @@ export class ProductComponent implements OnInit {
         this.progressbarValue = ((this.product.vitesse - this.product.timeleft) / this.product.vitesse) * 100;
       }
     }
+
   }
 
   /**
@@ -183,6 +184,8 @@ export class ProductComponent implements OnInit {
     this.service.putProduct(this.product);
   }
 
+  popMessage(message:string):void{this.snackBar.open(message,"",{duration:2000})}
+
   /**
    * Méthode pour calculer le maximum de produit qu'on peut acheter
    */
@@ -211,6 +214,13 @@ export class ProductComponent implements OnInit {
   checkAvailibility() {
     if (this.product.quantite > 0) this.isAvailable = true;
     else this.isAvailable = false;
+  }
+
+  checkUnlocks(){ //TODO
+    if(this.product.quantite == this.unlock.seuil){
+      console.log("débloqué");
+      this.unlock.unlocked = true;
+    }
   }
 
 }

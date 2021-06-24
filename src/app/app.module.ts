@@ -27,12 +27,14 @@ import {MatInputModule} from "@angular/material/input";
 import {MatLabel} from "@angular/material/form-field";
 import { ModalUsernameComponent } from './modal-username/modal-username.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { UpgradesComponent } from './upgrades/upgrades.component';
 
 const appRoutes: Routes = [
   { path: '', component: GameplayComponent},
   { path: 'gameplay', component: GameplayComponent },
   { path: 'achievements', component: AchievementsComponent },
-  { path: 'managers', component: ManagersComponent }
+  { path: 'managers', component: ManagersComponent },
+  { path: 'upgrades', component: UpgradesComponent }
 ];
 
 @NgModule({
@@ -45,7 +47,9 @@ const appRoutes: Routes = [
     BigvaluePipe,
     MsFormatPipe,
     ManagersComponent,
-    ModalUsernameComponent
+    ModalUsernameComponent,
+    ManagersComponent,
+    UpgradesComponent
   ],
   imports: [
     BrowserModule,

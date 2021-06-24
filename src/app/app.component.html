@@ -8,9 +8,9 @@
         <input matInput [(ngModel)]="username" readonly>
       </mat-form-field> &nbsp;&nbsp;&nbsp;
       <button mat-raised-button (click)="openDialog()">Changer</button>
-      <a mat-stroked-button routerLink="gameplay" (click)="this.isClicked = !isClicked" [class.myClass]="this.isClicked">Jeu</a><br>
-      <a mat-stroked-button routerLink="achievements"(click)="this.isClicked = !isClicked"  [class.myClass]="this.isClicked">Succès</a><br>
-      <a mat-stroked-button >Améliorations</a><br>
+      <a mat-stroked-button routerLink="gameplay"> <!--(click)="this.isClicked = !isClicked" [class.myClass]="this.isClicked"-->Jeu</a><br>
+      <a mat-stroked-button routerLink="achievements"> <!--(click)="this.isClicked = !isClicked"  [class.myClass]="this.isClicked"-->Succès</a><br>
+      <a mat-stroked-button routerLink="upgrades" [matBadge]="badgeUpgrades" [matBadgeHidden]="badgeUpgrades==0">Améliorations</a><br>
       <a mat-stroked-button routerLink="managers" [matBadge]="badgeManagers" [matBadgeHidden]="badgeManagers==0">Managers</a><br>
       <a mat-stroked-button>Investisseurs</a><br>
       <a mat-stroked-button>A suivre...</a>

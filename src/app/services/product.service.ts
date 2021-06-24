@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Product} from "../world";
+import {Injectable} from '@angular/core';
+import {Product} from "../world";
 import {Subject} from "rxjs";
 
 @Injectable({
@@ -11,28 +11,42 @@ export class ProductService {
 
   productSubject = new Subject<Product[]>();
 
-  constructor() { }
+  constructor() {
+  }
 
-  emitProductSubject(){
+  emitProductSubject() {
     this.productSubject.next(this.productList);
   }
 
-  setProductList(productList: any){
+  setProductList(productList: any) {
     this.productList = productList;
   }
 
-  setManagerUnlocked(id: number){
-    for(let product of this.productList){
-      if(product.id == id) product.managerUnlocked = true;
+  setManagerUnlocked(id: number) {
+    for (let product of this.productList) {
+      if (product.id == id) product.managerUnlocked = true;
     }
     this.emitProductSubject();
   }
 
-  getProductName(id: number){
-    for(let product of this.productList){
-      if(product.id == id) return product.name;
+  getProductName(id: number) {
+    for (let product of this.productList) {
+      if (product.id == id) return product.name;
     }
     return "defaultName";
+  }
+
+  setProductAfterUpgrade(id: number, typeratio: string, ratio: number) {
+    for (let product of this.productList) {
+      if (product.id == id) {
+        if (typeratio == "gain") {
+          product.revenu *= ratio;
+        } else if (typeratio == "vitesse") {
+          product.vitesse /= ratio;
+        }
+      }
+    }
+    this.emitProductSubject();
   }
 
 }

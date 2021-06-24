@@ -7,6 +7,7 @@ import {ProductService} from "./services/product.service";
 import {ManagerService} from "./services/manager.service";
 import {MatDialog} from "@angular/material/dialog";
 import {ModalUsernameComponent} from "./modal-username/modal-username.component";
+import {UpgradesService} from "./services/upgrades.service";
 
 export interface DialogData {
   username: string;
@@ -26,15 +27,17 @@ export class AppComponent implements OnInit {
   globalMoney: number;
   badgeManagers: number;
   username: string = "";
+  badgeUpgrades: number;
 
   constructor(private service: RestServiceService,
               private gmService: GlobalMoneyServiceService,
               private productService: ProductService,
               private managerService: ManagerService,
+              private upgradesService: UpgradesService,
               private dialog: MatDialog) {
 
     this.username = localStorage.getItem("username");
-    console.log("t.username:"+this.username);
+    console.log("t.username:" + this.username);
     if (this.username == "" || this.username == null || this.username == "null" || this.username == "undefined") {
       console.log("ici");
       let random = Math.floor(Math.random() * 10000);
@@ -57,8 +60,11 @@ export class AppComponent implements OnInit {
         this.productService.emitProductSubject();
         this.managerService.setManagerList(this.world.managers.pallier);
         this.managerService.emitManagerSubject();
+        this.upgradesService.setUpgradesList(this.world.upgrades.pallier);
+        this.upgradesService.emitUpgradesSubject();
         this.badgeManagers = 0;
         console.log(this.world);
+        this.badgeUpgrades = 0;
       }).then(
     );
   }
@@ -69,6 +75,7 @@ export class AppComponent implements OnInit {
       (globalMoney: number) => {
         this.globalMoney = globalMoney;
         this.getBuyableManagers();
+        this.getBuyableUpgrades();
       }
     );
     this.gmService.emitGlobalMoneySubject();
@@ -107,6 +114,19 @@ export class AppComponent implements OnInit {
         this.service.setUser(this.username);
         location.reload();
       });
+  }
+  getBuyableUpgrades(){
+    this.badgeUpgrades = 0;
+    for (let upgrade of this.world.upgrades.pallier){
+      if(this.globalMoney >= upgrade.seuil && !upgrade.unlocked){
+        this.badgeUpgrades++;
+      }
+    }
+  }
+
+  onUsernameChanged() {
+    localStorage.setItem("username", this.username);
+    this.service.setUser(this.username);
   }
 
 }
