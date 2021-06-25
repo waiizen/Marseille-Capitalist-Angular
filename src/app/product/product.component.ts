@@ -46,6 +46,8 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.initialPrice = this.product.cout;
     this.affichagePrix2 = this.product.cout;
     if (this.product.quantite > 1) this.affichagePrix2 = this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1);
+
+    console.log("@@@"+this.product.revenu + " "+this.product.quantite);
     if (this.product.quantite > 1) this.affichageRevenu = this.product.revenu * this.product.quantite;
     else this.affichageRevenu = this.product.revenu;
   }
@@ -101,6 +103,8 @@ export class ProductComponent implements OnInit, OnDestroy {
       this.lastUpdate = Date.now();
       this.inFabrication = true;
       this.showVitesse = false;
+      console.log("RE : " + this.product.revenu + " " + this.affichageRevenu);
+      this.service.putProduct(this.product);
     }
   }
 
@@ -196,6 +200,7 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.calcNewRevenu();
     // update la value en fonction du multiplier
     this.onChangeValueMultiplier();
+    console.log("RE2 : " + this.product.revenu + " " + this.affichageRevenu);
     this.service.putProduct(this.product);
   }
 
@@ -223,6 +228,7 @@ export class ProductComponent implements OnInit, OnDestroy {
    * Méthode qui calcule le prochain revenu
    */
   calcNewRevenu() {
+    console.log("newCalc"+this.product.revenu + " " +this.product.quantite);
     this.affichageRevenu = this.product.revenu * this.product.quantite;
   }
 

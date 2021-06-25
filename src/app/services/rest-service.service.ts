@@ -56,6 +56,7 @@ export class RestServiceService {
   }
 
   public putProduct(product: Product): Promise<Response> {
+    console.log("hihi " +product.revenu);
     return this.http
       .put(this.server + 'Marseille-Capitalist/generic/product', product, {
         headers: this.setHeaders(this.user),
