@@ -74,5 +74,22 @@ export class RestServiceService {
       .catch(this.handleError);
   }
 
+  public putAngel(newAngel: number): Promise<Response> {
+    return this.http
+      .put(this.server + 'Marseille-Capitalist/generic/angel', newAngel, {
+        headers: this.setHeaders(this.user),
+      })
+      .toPromise()
+      .catch(this.handleError);
+  }
+
+  public deleteWorld(): Promise<Response> {
+    return this.http.delete(
+      this.server + "Marseille-Capitalist/generic/world", {
+        headers: this.setHeaders(this.user)
+      }
+    ).toPromise().catch(this.handleError);
+  }
+
 
 }

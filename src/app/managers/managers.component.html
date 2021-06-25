@@ -1,23 +1,22 @@
 <div class="modal">
   <div>
-    <h1 class="title">Les managers</h1>
+    <h1 class="title">Les Managers</h1>
   </div>
   <div>
-      <div *ngFor="let manager of world.managers.pallier;">{{setManager(manager)}}
-        <div *ngIf="!manager.unlocked" class="managerslayout">
-          <div class="logo">
-           <!-- <img class="round" [attr.src]="server+manager.logo" /> //TODO -->
-            <img class="round" src="https://previews.123rf.com/images/lkeskinen/lkeskinen1802/lkeskinen180208322/95731150-example-stamp-typographic-label-stamp-or-icon.jpg"/>
-          </div>
-          <div class="C2">
-            <div class="managername"> {{ manager.name}} </div>
-            <div class="managercible">Automatise {{ this.getProductName(manager.idcible) }} </div>
-            <div class="managercost"> {{ manager.seuil}} €</div>
-          </div>
-          <div class="C3">
-            <button mat-raised-button (click)="hireManager(manager)" [disabled]="isDisabled" [ngClass]="{'selectable' : (this.globalMoney >= manager.seuil)}">Recruter !</button>
-          </div>
+    <div *ngFor="let manager of world.managers.pallier;">{{setManager(manager)}}
+      <div *ngIf="!manager.unlocked" class="managerslayout">
+        <div class="logo">
+          <img class="round" [src]="server + 'icones/' + manager.logo" />
+        </div>
+        <div class="C2">
+          <div class="managername"> {{ manager.name}} </div>
+          <div class="managercible">Automatise {{ this.getProductName(manager.idcible) }} </div>
+          <div class="managercost"> {{ manager.seuil}} €</div>
+        </div>
+        <div class="C3">
+          <button mat-raised-button (click)="hireManager(manager)" [disabled]="isDisabled" [ngClass]="{'selectable' : (this.globalMoney >= manager.seuil)}">Recruter !</button>
         </div>
       </div>
     </div>
   </div>
+</div>

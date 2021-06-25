@@ -3,6 +3,7 @@
   height: 100%;
   width: 100%;
   background: #eee;
+  background-image: url("../assets/rug.png");
 }
 
 .sidenav{
@@ -35,4 +36,8 @@ a{
 .mat-badge-content {
   background: red;
   color: #71717d;
+}
+
+#worldName{
+  color: #0ca6e3;
 }

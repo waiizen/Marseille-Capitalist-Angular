@@ -13,12 +13,17 @@ export class AngelComponent implements OnInit {
   world: World = new World();
   server: string;
   angel : Pallier;
+  totalAngels: number = 0;
+  currentAngels: number = 0;
 
-  constructor(private service: RestServiceService, private snackBar: MatSnackBar) {
+  constructor(private service: RestServiceService,
+              private snackBar: MatSnackBar) {
     this.server = service.getServer();
     service.getWorld().then(
       world => {
         this.world = world;
+        this.totalAngels = this.world.activeangels;
+        this.calculAnge();
       });
   }
 
@@ -31,6 +36,17 @@ export class AngelComponent implements OnInit {
   }
 
   claimAnges() {
-    this.popMessage("Vous avez récupéré "+this.world.activeangels+" anges");
+    this.popMessage("Vous avez récupéré "+this.currentAngels.toFixed(0)+" anges");
+    this.totalAngels += this.currentAngels;
+    this.currentAngels = 0;
+    this.service.putAngel(this.totalAngels);
+    this.service.deleteWorld();
   }
+
+  calculAnge(){
+    console.log(this.world);
+    console.log("ange 150* " + this.world.score + " " + this.totalAngels);
+    this.currentAngels = (150 * Math.sqrt((this.world.score)/Math.pow(10,15))-this.totalAngels);
+  }
+
 }
