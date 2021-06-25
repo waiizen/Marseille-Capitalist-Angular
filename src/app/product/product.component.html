@@ -20,11 +20,7 @@
       {{this.product.timeleft | msFormat}}
     </p>
     <div class="price">
-      <button mat-raised-button matBadge="{{this.maxQtt}}" matBadgeSize="medium" [matBadgeHidden]="!visibilityBadge"
-              matBadgePosition="below" [disabled]="!buyable" (click)="onBuy()">
-        <mat-icon>add_shopping_cart</mat-icon>
-        {{this.affichagePrix2.toFixed(2)}}$
-      </button>
+      <button mat-raised-button matBadge="{{this.maxQtt}}" matBadgeSize="medium" [matBadgeHidden]="!visibilityBadge" matBadgePosition="below" [disabled]="!buyable" (click)="onBuy()"><mat-icon>add_shopping_cart</mat-icon>{{this.affichagePrix2 | smallvalue}} $</button>
     </div>
     <div class="qtt">
       <p><mat-icon>shopping_cart</mat-icon>{{this.product.quantite}}

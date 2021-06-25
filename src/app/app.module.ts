@@ -29,13 +29,15 @@ import { ModalUsernameComponent } from './modal-username/modal-username.componen
 import {MatDialogModule} from "@angular/material/dialog";
 import { UpgradesComponent } from './upgrades/upgrades.component';
 import { AngelComponent } from './angel/angel.component';
+import { SmallvaluePipe } from './smallvalue.pipe';
 
 const appRoutes: Routes = [
   { path: '', component: GameplayComponent},
   { path: 'gameplay', component: GameplayComponent },
   { path: 'achievements', component: AchievementsComponent },
   { path: 'managers', component: ManagersComponent },
-  { path: 'upgrades', component: UpgradesComponent }
+  { path: 'upgrades', component: UpgradesComponent },
+  { path: 'angel', component: AngelComponent }
 ];
 
 @NgModule({
@@ -51,7 +53,9 @@ const appRoutes: Routes = [
     ModalUsernameComponent,
     ManagersComponent,
     UpgradesComponent,
-    AngelComponent
+    AngelComponent,
+    UpgradesComponent,
+    SmallvaluePipe
   ],
   imports: [
     BrowserModule,

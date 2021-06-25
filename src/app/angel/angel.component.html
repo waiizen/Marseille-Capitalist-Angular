@@ -1,1 +1,9 @@
-<p>angel works!</p>
+<div class="modal">
+  <div>
+    <h1 class="title">Les Anges</h1>
+  </div>
+  <div class="currentAnges">{{world.activeangels}} anges</div>
+  <img (click)="claimAnges()" [src]="server + 'icones/angeInsane.png'">
+  <div class="angels">Vous avez {{world.totalangels}} anges, bonus {{world.angelbonus}}%</div>
+</div>
+
