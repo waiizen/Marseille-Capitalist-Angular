@@ -16,6 +16,17 @@
           </div>
         </div>
       </div>
+    </div><div *ngFor="let u of world.allunlocks.pallier;">
+    <div *ngIf="!u.unlocked" class="unlocklayout">
+      <div class="logo">
+        <img class="round" [src]="server + 'icones/' + u.logo"/>
+      </div>
+      <div class="C2">
+        <div class="unlockname"> {{ u.name}} </div>
+        <div class="unlockbonus">débloque {{ u.typeratio}} x {{u.ratio}} </div>
+        <div class="unlockquantity">Seuil : {{ u.seuil }} </div>
+      </div>
     </div>
+  </div>
   </div>
 </div>

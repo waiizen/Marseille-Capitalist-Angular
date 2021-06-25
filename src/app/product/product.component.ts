@@ -5,6 +5,7 @@ import {Subscription} from "rxjs";
 import {GlobalMoneyServiceService} from "../services/global-money-service.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {AchievementsService} from "../services/achievements.service";
+import {delay} from "rxjs/operators";
 
 @Component({
   selector: 'app-product',
@@ -46,8 +47,6 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.initialPrice = this.product.cout;
     this.affichagePrix2 = this.product.cout;
     if (this.product.quantite > 1) this.affichagePrix2 = this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1);
-
-    console.log("@@@"+this.product.revenu + " "+this.product.quantite);
     if (this.product.quantite > 1) this.affichageRevenu = this.product.revenu * this.product.quantite;
     else this.affichageRevenu = this.product.revenu;
   }
@@ -103,7 +102,6 @@ export class ProductComponent implements OnInit, OnDestroy {
       this.lastUpdate = Date.now();
       this.inFabrication = true;
       this.showVitesse = false;
-      console.log("RE : " + this.product.revenu + " " + this.affichageRevenu);
       this.service.putProduct(this.product);
     }
   }
@@ -141,17 +139,17 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.visibilityBadge = false;
     switch (this._currentMulti) {
       case "x1":
-        this.affichagePrix2 = this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1);
+        this.affichagePrix2 = this.product.cout * Math.pow(this.product.croissance, this.product.quantite);
         this.qttToBuy = 1;
         break;
 
       case "x10":
-        this.affichagePrix2 = (((this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1)) * (1 - Math.pow(r, 10))) / (1 - r));
+        this.affichagePrix2 = (((this.product.cout * Math.pow(this.product.croissance, this.product.quantite)) * (1 - Math.pow(r, 10))) / (1 - r));
         this.qttToBuy = 10;
         break;
 
       case "x100":
-        this.affichagePrix2 = (((this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1)) * (1 - Math.pow(r, 100))) / (1 - r));
+        this.affichagePrix2 = (((this.product.cout * Math.pow(this.product.croissance, this.product.quantite)) * (1 - Math.pow(r, 100))) / (1 - r));
         this.qttToBuy = 100;
         break;
 
@@ -159,7 +157,7 @@ export class ProductComponent implements OnInit, OnDestroy {
         this.maxQtt = Math.trunc(this.calcMaxCanBuy());
         if (this.maxQtt > 0) {
           this.visibilityBadge = true;
-          this.affichagePrix2 = (((this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1)) * (1 - Math.pow(r, this.maxQtt))) / (1 - r));
+          this.affichagePrix2 = (((this.product.cout * Math.pow(this.product.croissance, this.product.quantite)) * (1 - Math.pow(r, this.maxQtt))) / (1 - r));
           this.qttToBuy = this.maxQtt;
         }
 
@@ -200,7 +198,6 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.calcNewRevenu();
     // update la value en fonction du multiplier
     this.onChangeValueMultiplier();
-    console.log("RE2 : " + this.product.revenu + " " + this.affichageRevenu);
     this.service.putProduct(this.product);
   }
 
@@ -213,7 +210,7 @@ export class ProductComponent implements OnInit, OnDestroy {
    */
   calcMaxCanBuy() {
     let r = this.product.croissance;
-    let n = (Math.log(1 - ((this.globalMoney * (1 - r)) / (this.product.cout * Math.pow(this.product.croissance, this.product.quantite - 1))))) / Math.log(r);
+    let n = (Math.log(1 - ((this.globalMoney * (1 - r)) / (this.product.cout * Math.pow(this.product.croissance, this.product.quantite))))) / Math.log(r);
     return n;
   }
 
@@ -228,20 +225,12 @@ export class ProductComponent implements OnInit, OnDestroy {
    * Méthode qui calcule le prochain revenu
    */
   calcNewRevenu() {
-    console.log("newCalc"+this.product.revenu + " " +this.product.quantite);
     this.affichageRevenu = this.product.revenu * this.product.quantite;
   }
 
   checkAvailibility() {
     if (this.product.quantite > 0) this.isAvailable = true;
     else this.isAvailable = false;
-  }
-
-  checkUnlocks() { //TODO
-    if (this.product.quantite == this.unlock.seuil) {
-      console.log("débloqué");
-      this.unlock.unlocked = true;
-    }
   }
 
 }

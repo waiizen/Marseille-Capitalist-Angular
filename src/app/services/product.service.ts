@@ -36,6 +36,13 @@ export class ProductService {
     return "defaultName";
   }
 
+  getProductQtt(id: number){
+    for (let product of this.productList) {
+      if (product.id == id) return product.revenu;
+    }
+    return 0;
+  }
+
   setProductAfterUpgrade(id: number, typeratio: string, ratio: number) {
     for (let product of this.productList) {
       if (product.id == id) {

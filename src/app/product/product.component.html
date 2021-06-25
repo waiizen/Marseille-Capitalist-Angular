@@ -15,7 +15,7 @@
     </p>
     <p *ngIf="!showVitesse">
       <mat-icon>savings</mat-icon>
-      {{this.affichageRevenu}}€&nbsp;&nbsp;-&nbsp;&nbsp;
+      {{this.affichageRevenu | smallvalue}} €&nbsp;&nbsp;-&nbsp;&nbsp;
       <mat-icon>access_time_filled</mat-icon>
       {{this.product.timeleft | msFormat}}
     </p>

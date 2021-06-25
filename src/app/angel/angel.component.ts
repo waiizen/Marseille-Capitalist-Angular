@@ -36,6 +36,7 @@ export class AngelComponent implements OnInit {
   }
 
   claimAnges() {
+    this.playAudio();
     this.popMessage("Vous avez récupéré "+this.currentAngels.toFixed(0)+" anges");
     this.totalAngels += this.currentAngels;
     this.currentAngels = 0;
@@ -44,9 +45,15 @@ export class AngelComponent implements OnInit {
   }
 
   calculAnge(){
-    console.log(this.world);
-    console.log("ange 150* " + this.world.score + " " + this.totalAngels);
     this.currentAngels = (150 * Math.sqrt((this.world.score)/Math.pow(10,15))-this.totalAngels);
   }
+
+  playAudio(){
+    let audio = new Audio();
+    audio.src = "../../assets/cHonteux.mp3";
+    audio.load();
+    audio.play();
+  }
+
 
 }
